@@ -1,134 +1,150 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class CurrencyConverterMaterial extends StatefulWidget {
   const CurrencyConverterMaterial({super.key});
 
   @override
-  State<CurrencyConverterMaterial> createState() => _CurrencyConverterState();
+  State<CurrencyConverterMaterial> createState() =>
+      _CurrencyConverterMaterial();
 }
 
-const double _conversionRate = 1300.0;
-
-class _CurrencyConverterState extends State<CurrencyConverterMaterial> {
+class _CurrencyConverterMaterial extends State<CurrencyConverterMaterial> {
   double result = 0;
-  final TextEditingController amountController = TextEditingController();
+  final double _coversionRate = 1_345.27;
+  TextEditingController textEditingController = TextEditingController();
+  final formatter = NumberFormat("#,##0");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 96, 125, 139),
+        foregroundColor: Colors.white,
         elevation: 0,
         title: Text(
           "Currency Converter",
-          style: TextStyle(color: Colors.white),
+          style: GoogleFonts.montserrat(
+            fontWeight: FontWeight.w700,
+            fontSize: 25,
+          ),
         ),
-        backgroundColor: Color.fromARGB(255, 18, 52, 59),
-        centerTitle: true,
       ),
-      body: ColoredBox(
-        color: Color.fromARGB(255, 18, 52, 59),
+      backgroundColor: Color.fromARGB(245, 96, 125, 139),
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 15,
+          spacing: 10,
           children: [
-            Column(
-              children: [
-                Center(
-                  child: Text(
-                    "N $result",
-                    style: TextStyle(
-                      fontSize: 45,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10.0),
-                  margin: EdgeInsets.only(top: 25),
-                  child: TextField(
-                    keyboardType: TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    controller: amountController,
-                    style: TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                      hint: Text(
-                        "Please enter an amount in USD",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 161, 161, 161),
-                        ),
-                      ),
-                      prefixIcon: Icon(Icons.monetization_on),
-                      prefixIconColor: Color.fromARGB(255, 18, 52, 59),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                        borderSide: BorderSide(
-                          width: 2.0,
-                          color: Color.fromARGB(255, 234, 154, 204),
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                        borderSide: BorderSide(
-                          width: 2,
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: TextButton(
-                    onPressed: () {
-                      final parsedAmount = double.tryParse(
-                        amountController.text,
-                      );
-                      if (parsedAmount != null) {
-                        setState(() {
-                          result = parsedAmount * _conversionRate;
-                        });
-                      }
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.pinkAccent,
-                      foregroundColor: Colors.white,
-                      minimumSize: Size(double.infinity, 50),
-                      padding: EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 20,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                      ),
-                    ),
-                    child: Text(
-                      "Convert",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            ColoredBox(
-              color: Colors.transparent,
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
               child: Column(
                 children: [
                   Text(
-                    "Powered by ZayonSoft",
-                    style: TextStyle(color: Colors.white),
+                    "\u20A6 ${formatter.format(result)}",
+                    style: GoogleFonts.inter(
+                      fontSize: 39,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                   Text(
-                    "Incoming Flutter Dev..",
-                    style: TextStyle(color: Colors.white),
+                    "Conversion rate: 1 USD =  \u20A6 ${formatter.format(_coversionRate)}",
+                    style: GoogleFonts.inter(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 12, right: 12),
+              child: TextField(
+                controller: textEditingController,
+
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                decoration: InputDecoration(
+                  hint: Text(
+                    "Pls, enter the amount in USD",
+                    style: GoogleFonts.inter(color: Colors.blueGrey),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.monetization_on_sharp,
+                    color: Color.fromARGB(224, 7, 51, 57),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white70,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      width: 2,
+                      style: BorderStyle.solid,
+                      color: const Color.fromARGB(255, 7, 51, 57),
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(width: 2, style: BorderStyle.solid),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 7, 51, 57),
+                  foregroundColor: Colors.white70,
+                  elevation: 5,
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  minimumSize: Size(double.infinity, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadiusGeometry.circular(10),
+                  ),
+                ),
+                onPressed: () => {
+                  setState(() {
+                    double? userInput = double.tryParse(
+                      textEditingController.text,
+                    );
+                    if (userInput != null) {
+                      result = userInput * _coversionRate;
+                    }
+                  }),
+                },
+                child: Text(
+                  "Convert",
+                  style: GoogleFonts.montserrat(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Powered by",
+                  style: GoogleFonts.lexend(
+                    color: Color.fromARGB(255, 7, 51, 57),
+                    fontSize: 17,
+                  ),
+                ),
+                Text(
+                  " ZayonSoft!",
+                  style: GoogleFonts.lexend(
+                    color: Color.fromARGB(255, 7, 51, 57),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
