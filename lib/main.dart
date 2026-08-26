@@ -1,8 +1,11 @@
+import 'package:currency_converter/currency_converter_cupertino.dart';
 import 'package:currency_converter/currency_converter_material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
+  // runApp(const MyCupertinoApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -11,5 +14,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(home: CurrencyConverterMaterial());
+  }
+}
+
+class MyCupertinoApp extends StatelessWidget {
+  const MyCupertinoApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoApp(home: CurrencyConverterCupertino());
   }
 }
